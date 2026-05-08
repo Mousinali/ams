@@ -25,7 +25,7 @@ export default function LoginPage() {
           <div className="w-16 h-16 bg-black text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-black/10">
             <i className="ri-shield-keyhole-line text-3xl"></i>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight">Antigravity AMS</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight">MY AMS</h1>
           <p className="text-zinc-500 mt-2">Asset Management System</p>
         </div>
 
