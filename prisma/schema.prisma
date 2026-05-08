@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  assets    Asset[]
+}
+
+model Department {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  employees    Employee[]
+  designations Designation[]
+}
+
+model Designation {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  employees    Employee[]
+}
+
+model Asset {
+  id               String   @id @default(cuid())
+  assetTag         String   @unique
+  name             String
+  isActive         Boolean  @default(true)
+
+  categoryId       String
+  category         Category @relation(fields: [categoryId], references: [id])
+
+  brand            String?
+  model            String?
+  serialNumber     String?
+
+  purchaseDate     DateTime?
+  warrantyExpiry   DateTime?
+
+  price            Float?
+
+  status           String
+  condition        String
+
+  location         String?
+  imageUrl         String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  assignments      Assignment[]
+}
+
+model Employee {
+  id               String   @id @default(cuid())
+  employeeId       String?  @unique
+  isActive         Boolean  @default(true)
+
+  name             String
+  email            String   @unique
+
+  departmentId     String
+  designationId    String
+
+  department       Department @relation(fields: [departmentId], references: [id])
+
+  designation      Designation @relation(fields: [designationId], references: [id])
+
+  assignments      Assignment[]
+}
+
+model Assignment {
+  id               String   @id @default(cuid())
+
+  assetId          String
+  employeeId       String
+
+  assignedAt       DateTime @default(now())
+  returnedAt       DateTime?
+  returnReason     String?
+  returnNotes      String?
+
+  asset            Asset @relation(fields: [assetId], references: [id])
+
+  employee         Employee @relation(fields: [employeeId], references: [id])
+}
+
+model User {
+  id       String @id @default(cuid())
+  username String @unique
+  password String
+}
