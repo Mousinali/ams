@@ -7,7 +7,7 @@ const secretKey = "secret-key-for-asset-management-system";
 const key = new TextEncoder().encode(secretKey);
 
 export async function hashPassword(password: string) {
-  return await bcrypt.hash(password, 10);
+  return await bcrypt.hash(password, 8);
 }
 
 export async function comparePassword(password: string, hash: string) {
